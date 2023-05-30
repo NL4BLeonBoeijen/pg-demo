@@ -31,7 +31,7 @@
         "deploy:pg:data:delta": "npx cds-dbm load --via delta",
         "deploy:pg:data:full": "npx cds-dbm load --via full",
         "build:cf": "npx mbt build",
-        "deploy:cf": "cf deploy mta_archives/fi-recurringsbfr_1.0.0.mtar --retries 1"
+        "deploy:cf": "cf deploy mta_archives/pg-demo_1.0.0.mtar --retries 1"
     },
     "cds": {
         "build": {

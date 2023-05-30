@@ -1,0 +1,18 @@
+{
+    "VCAP_SERVICES": {
+      "postgres": [
+        {
+          "name": "database",
+          "label": "postgres",
+          "tags": ["plain", "db", "relational", "database"],
+          "credentials": {
+            "host": "localhost",
+            "port": "5432",
+            "database": "pgdemo",
+            "user": "postgres",
+            "password": "postgres"
+          }
+        }
+      ]
+    }
+  }
