@@ -1,0 +1,84 @@
+{
+    "name": "pg-demo",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^6",
+        "@sap/xssec": "^3",
+        "cds-dbm": "^0.1.4",
+        "cds-pg": "^0.1.36",
+        "express": "^4",
+        "hdb": "^0.19.0",
+        "passport": "^0",
+        "pg": "^8.11.0",
+        "sqlite3": "^5"
+    },
+    "devDependencies": {
+        "@sap/ux-specification": "^1.108.6",
+        "rimraf": "^3.0.2",
+        "sqlite3": "^5"
+    },
+    "engines": {
+        "node": "^16.0.0"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "deploy:pg": "npx cds-dbm deploy --create-db",
+        "deploy:pg:load": "npx cds-dbm deploy --create-db --load-via delta",
+        "deploy:pg:data:delta": "npx cds-dbm load --via delta",
+        "deploy:pg:data:full": "npx cds-dbm load --via full",
+        "build:cf": "npx mbt build",
+        "deploy:cf": "cf deploy mta_archives/fi-recurringsbfr_1.0.0.mtar --retries 1"
+    },
+    "cds": {
+        "build": {
+            "tasks": [
+                {
+                    "use": "node-cf",
+                    "for": "node-cf",
+                    "src": "srv"
+                },
+                {
+                    "use": "cds-dbm/dist/build/postgres-cf",
+                    "for": "postgres-cf",
+                    "src": "db",
+                    "options": {
+                        "deployCmd": "npx cds-dbm deploy --load-via delta --auto-undeploy"
+                    }
+                }
+            ]
+        },
+        "requires": {
+            "db": {
+                "kind": "postgres"
+            },
+            "postgres": {
+                "dialect": "plain",
+                "impl": "cds-pg",
+                "model": [
+                    "srv"
+                ]
+            },
+            "auth": "xsuaa"
+        },
+        "migrations": {
+            "db": {
+                "schema": {
+                    "default": "public",
+                    "clone": "_cdsdbm_clone",
+                    "reference": "_cdsdbm_ref"
+                },
+                "deploy": {
+                    "tmpFile": "tmp/_autodeploy.json",
+                    "undeployFile": "db/undeploy.json"
+                }
+            }
+        }
+    },
+    "sapux": [
+        "app/pg-demo-app-ui"
+    ]
+}

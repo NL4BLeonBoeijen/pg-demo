@@ -1,0 +1,1 @@
+sap.ui.define(["sap/fe/core/AppComponent"],function(e){"use strict";return e.extend("nl.themuth.pgdemoappui.Component",{metadata:{manifest:"json"}})});
